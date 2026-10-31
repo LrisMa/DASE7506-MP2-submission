@@ -64,9 +64,9 @@ predictions are excluded.
 
 The course supplied the data and fixed candidate representations. See
 [`code/data/LICENSE.txt`](code/data/LICENSE.txt) and
-[`code/data/NOTICE.txt`](code/data/NOTICE.txt). The student proposed the outer
-25/75 blend and directed the error analysis. GitHub Copilot was used
-substantively for development, experimentation and report drafting. Another
-AI-generated summary of online material informed the ensemble design; its
-original source list was not retained. The implementation is an approximation,
-not an exact reproduction of an identified external model.
+[`code/data/NOTICE.txt`](code/data/NOTICE.txt). I proposed the outer 25/75 blend
+and directed the error analysis. I used GitHub Copilot substantively for
+development, experimentation and report drafting. Another AI-generated
+summary of online material informed my ensemble design; its original source
+list was not retained. My implementation is an approximation, not an exact
+reproduction of an identified external model.

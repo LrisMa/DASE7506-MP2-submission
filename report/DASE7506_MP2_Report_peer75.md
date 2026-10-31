@@ -5,31 +5,31 @@ subtitle: "DASE7506 MP2 — experimental report"
 
 # Abstract
 
-When four generated solutions disagree, a fluent explanation or a majority answer need not be correct. This project investigates whether a compact selector can combine answer agreement, candidate representations and question–solution interaction to select a correct final answer. The investigated model combines a normalized baseline with an independently designed group, kernel and text ensemble. A 25% baseline / 75% ensemble ratio, proposed before that ratio was scored, obtained **391/467 (83.72591006423983%)** on the official test scorer. The normalized baseline obtained 383/467. On the reused validation set, however, the same blend obtained 739/798 versus 752/798 for the baseline. Three training cross-validation splits show small positive aggregate gains but inconsistent fold-level changes. I examine disagreement cases and rejected hypotheses rather than treating a higher score as proof of sound reasoning. Earlier public-test aggregates were known during development, so these results are not a blind independent estimate. The score is below 84%, which requires at least 393 correct answers.
+When four generated solutions disagree, a fluent explanation or a majority answer need not be correct. I investigate whether a compact selector can combine answer agreement, candidate representations and question–solution interaction to select a correct final answer. My model combines a normalized baseline with a group, kernel and text ensemble. I proposed a 25% baseline / 75% ensemble ratio before testing that ratio; it obtained **391/467 (83.72591006423983%)** on the official test scorer. The normalized baseline obtained 383/467. On validation, however, the same blend obtained 739/798 versus 752/798 for the baseline. Three training cross-validation splits show small positive aggregate gains but inconsistent fold-level changes. I examine disagreement cases and rejected hypotheses rather than treating a higher score as proof of sound reasoning. The score is below 84%, which requires at least 393 correct answers.
 
 # 1. Research question and motivation
 
-The central question is: **can comparing complementary evidence identify a correct answer when answer voting and a learned selector disagree?** A wrong solution may be persuasive, and several candidates may repeat the same mistake. Conversely, an imperfect derivation can accidentally end with the right number. The course scorer evaluates the final number, not whether the derivation is valid [1]. A selector can therefore achieve a high score without being a sound step-by-step mathematical verifier.
+My central question is: **can comparing complementary evidence identify a correct answer when answer voting and a learned selector disagree?** A wrong solution may be persuasive, and several candidates may repeat the same mistake. Conversely, an imperfect derivation can accidentally end with the right number. The course scorer evaluates the final number, not whether the derivation is valid [1]. A selector can therefore achieve a high score without being a sound step-by-step mathematical verifier.
 
-The investigation was driven by questions rather than a single architecture: What information is added by considering other candidates? Does combining individually imperfect scorers help? Are failures explained by superficial features, and do improvements persist across folds? Course lectures on verifiers, self-consistency and reward or scoring failures motivated these questions [2]. They are conceptual inspiration, not a claim that this system performs reinforcement learning or uses an LLM to verify solutions.
+I pursued these questions rather than committing to a single architecture: What information is added by considering other candidates? Does combining individually imperfect scorers help? Are failures explained by superficial features, and do improvements persist across folds? Course lectures on verifiers, self-consistency and reward or scoring failures motivated my investigation [2]. They are conceptual inspiration, not a claim that my system performs reinforcement learning or uses an LLM to verify solutions.
 
 # 2. Data and evaluation protocol
 
-The supplied GSM8K-derived bank contains 4,755 training, 798 validation and 467 test questions. Each has four candidate traces and one fixed 1,024-dimensional representation per candidate. We use the supplied parser and independent scorer: a selection is correct when its parsed final numeric answer equals the reference; multiple candidates in one question may be correct. Data, parser and scorer were not modified. Inference chooses one supplied candidate, uses no reference answer or ID-based lookup, and makes no generation or external API call.
+The supplied GSM8K-derived bank contains 4,755 training, 798 validation and 467 test questions. Each has four candidate traces and one fixed 1,024-dimensional representation per candidate. I use the supplied parser and independent scorer: a selection is correct when its parsed final numeric answer equals the reference; multiple candidates in one question may be correct. I did not modify the data, parser or scorer. Inference chooses one supplied candidate, uses no reference answer or ID-based lookup, and makes no generation or external API call.
 
-Model parameters and transformation statistics are fitted on training data. Training-only diagnostic splits are by question; validation is used for development and comparison. **Disagreement questions** have at least two distinct parsable answers. Training contains 2,114 such questions, validation 355, and every test group has at least two distinct valid parsed answers. Reporting the disagreement subset helps separate easy agreement cases from the task of resolving conflicting answers, but it does not make the validation and test distributions identical.
+I fit model parameters and transformation statistics on training data. My training-only diagnostic splits are by question; I use validation for development and comparison. **Disagreement questions** have at least two distinct parsable answers. Training contains 2,114 such questions, validation 355, and every test group has at least two distinct valid parsed answers. Reporting the disagreement subset helps separate easy agreement cases from the task of resolving conflicting answers, but it does not make the validation and test distributions identical.
 
-Validation was reused across substantial development. Previous aggregate public-test results were already known before the 25/75 idea was proposed. Each reported test configuration was frozen before its own scoring, but seeing earlier outcomes means later comparisons are not fully blind. After scoring, the 25/75 model was retained as the working reference. Test scores should not be represented as independent evidence for a test-blind selection. The student reports that course staff permitted fixed-ratio test comparisons without selecting weights from test scores; written confirmation is not included in this repository. Whether selection based on those scores is permitted must be confirmed separately with the instructor under [1].
+I used validation repeatedly during development. I had seen aggregate results from earlier models before proposing the 25/75 ratio, and I froze each reported configuration before scoring that configuration. After evaluating the 25/75 model, I retained it as a reference for further analysis.
 
 # 3. Method
 
 ## 3.1 Baselines
 
-A fixed-seed random selector and answer voting establish simple reference points. Voting groups equivalent parsed numbers and selects a candidate from the largest answer group. The stronger normalized baseline uses the supplied trace representations, learned candidate scoring and candidate-relative/answer-group features; it also normalizes supported written quantities in a copy of the input text. It retains the official parser for choosing scorable candidates. Its existing numerical features are part of the baseline, not a new feature introduced by this experiment. No normalization is guaranteed to resolve every linguistic ambiguity.
+I use a fixed-seed random selector and answer voting as simple reference points. Voting groups equivalent parsed numbers and selects a candidate from the largest answer group. My stronger normalized baseline uses the supplied trace representations, learned candidate scoring and candidate-relative/answer-group features; it also normalizes supported written quantities in a copy of the input text. It retains the official parser for choosing scorable candidates. Its existing numerical features are part of the baseline, not a new feature introduced by this experiment. No normalization is guaranteed to resolve every linguistic ambiguity.
 
 ## 3.2 Complementary ensemble
 
-An AI-assisted summary of material found online suggested investigating three complementary components. The implementation here was developed from that summary, not copied from an available implementation or checkpoint; the original detailed source list was not retained (Section 8). The three components are:
+I used an AI-assisted summary of material I found online to investigate three complementary components. I developed the implementation from that summary, rather than copying an available implementation or checkpoint; the original detailed source list was not retained (Section 8). The three components are:
 
 1. **Group scorer (A):** a LambdaRank model compares groups of candidates with the same parsed answer. Its inputs include candidate-level pairwise-linear, LambdaRank and TF-IDF scores, projected candidate embeddings, and 65 scalar formatting, equation and answer-group attributes. Out-of-fold scores are used when fitting the group layer.
 2. **Kernel scorer (K):** a pairwise logistic ranker uses a Nyström approximation to an RBF kernel with 512 landmarks. It provides nonlinear distinctions over candidate representations and scalar features.
@@ -39,13 +39,13 @@ Scores are centered across parsable candidates within each question and divided 
 
 `0.25 × standardized baseline + 0.75 × standardized P`.
 
-The 25/75 outer ratio was the student's hypothesis, fixed before that ratio's test scoring. It is not a claim that the individual A, K or C scorers are each better than the baseline. Candidate answers that the official parser cannot score are masked when a parsable candidate exists. The implementation returns a candidate index, not a calibrated probability or a proof of reasoning.
+I proposed the 25/75 outer ratio and fixed it before testing that ratio. I do not claim that the individual A, K or C scorers are each better than the baseline. Candidate answers that the official parser cannot score are masked when a parsable candidate exists. My implementation returns a candidate index, not a calibrated probability or a proof of reasoning.
 
 # 4. Experiments and results
 
 ## 4.1 Baselines and fixed-ratio comparisons
 
-The following comparisons use the same supplied validation and test banks and official scoring protocol. The 25/75 and 75/25 ensemble rows use the same `peer-bottom` checkpoint; the 15/85 and 50/50 rows use fixed reweightings of that checkpoint. The 100/0 row is the normalized baseline. The 25/75 model was frozen before its test scoring, and the 15/85 and 50/50 configurations were frozen before their later test comparison.
+I compare the methods on the same supplied validation and test banks using the official scoring protocol. The 25/75 and 75/25 ensemble rows use the same `peer-bottom` checkpoint; the 15/85 and 50/50 rows use fixed reweightings of that checkpoint. The 100/0 row is the normalized baseline. I froze the 25/75 model before scoring it, and I froze the 15/85 and 50/50 configurations before their later test comparison.
 
 | Method / baseline : ensemble | Validation correct / 798 | Validation disagreement / 355 | Test correct / 467 |
 |:--|--:|--:|--:|
@@ -61,7 +61,7 @@ This comparison is an inference-time ablation of the outer blend, not retraining
 
 ## 4.2 Matched training-only cross-validation
 
-For seeds 6813, 7253 and 7507, the 25/75 blend was compared with the normalized baseline using matched question-level outer folds and nested fitting for the relevant component scores. On the 2,114 disagreement questions:
+For seeds 6813, 7253 and 7507, I compared the 25/75 blend with the normalized baseline using matched question-level outer folds and nested fitting for the relevant component scores. On the 2,114 disagreement questions:
 
 | Seed | Baseline | 25/75 blend | Difference |
 |:--|--:|--:|--:|
@@ -75,7 +75,7 @@ For seed 6813, the group, kernel and text scorers alone obtained 1,678, 1,700 an
 
 # 5. Failure analysis and rejected hypotheses
 
-In the seed-6813 held-out training predictions, the 25/75 blend missed 398 of 2,114 disagreement questions. Of those 398 errors, 315 questions had exactly one correct candidate; in 176 errors the selected answer appeared only once. Answer voting selected correctly on 1,413 disagreement questions, compared with 1,716 for the blend. The vote comparison supports using more than raw agreement, but the error counts do not identify a single failure mechanism.
+I examined the seed-6813 held-out training predictions and found that the 25/75 blend missed 398 of 2,114 disagreement questions. Of those 398 errors, 315 questions had exactly one correct candidate; in 176 errors the selected answer appeared only once. Answer voting selected correctly on 1,413 disagreement questions, compared with 1,716 for the blend. The vote comparison supports using more than raw agreement, but the error counts do not identify a single failure mechanism.
 
 On the reused validation disagreement subset, the baseline and 25/75 blend selected different final numbers on 20 questions. The baseline alone was correct on 16, the blend alone on three, and both were wrong on one. This paired breakdown is more informative than aggregate accuracy, but it remains exploratory because validation was repeatedly inspected.
 
@@ -105,11 +105,11 @@ For a training reconstruction, `python export_peer.py` fits and exports the ense
 
 # 7. Conclusion
 
-The investigation progressed by proposing a combination, testing whether it changed outcomes, inspecting disagreement cases, and rejecting a numeric-backoff idea that did not improve the matched training comparisons. The proposed 25/75 model achieved 391/467 on the public test bank, but validation favored the baseline and fold gains were not uniformly stable. Neither result should be simplified into “the ensemble always works” or “the ensemble is useless.” The remaining questions are whether the gain transfers to a genuinely unseen audit bank, which evidence resolves the hardest disagreements, and whether a verifier can distinguish genuinely sound reasoning from a lucky final number.
+I progressed by proposing a combination, testing whether it changed outcomes, inspecting disagreement cases, and rejecting a numeric-backoff idea that did not improve the matched training comparisons. My proposed 25/75 model achieved 391/467 on the public test bank, but validation favored the baseline and fold gains were not uniformly stable. I do not simplify these results into “the ensemble always works” or “the ensemble is useless.” My remaining questions are whether the gain transfers to a genuinely unseen audit bank, which evidence resolves the hardest disagreements, and whether a verifier can distinguish genuinely sound reasoning from a lucky final number.
 
 # 8. Attribution and substantive AI assistance
 
-The student supplied the research goal, proposed the 25/75 outer blend, requested repeated comparisons, and pushed the investigation beyond aggregate scores toward the reasons for errors. GitHub Copilot was used substantively for code generation and debugging, experimental execution, analysis, and drafting. The student also used another AI to summarize material found while researching online; that summary inspired the A/K/C direction. The summary did not retain a verifiable bibliography or the original full implementation, so no specific author, paper, or implementation is attributed here. The underlying sources should be added if recovered. The present system is an independent approximation, not a verified reproduction of that summary. The student remains responsible for reviewing the code, claims, disclosures and submission.
+I defined the research goal, proposed the 25/75 outer blend, requested repeated comparisons, and pursued the reasons behind errors rather than stopping at aggregate scores. I used GitHub Copilot substantively for code generation and debugging, experimental execution, analysis, and drafting. I also used another AI to summarize material I found while researching online; that summary inspired my A/K/C direction. The summary did not retain a verifiable bibliography or the original full implementation, so I do not attribute it to a specific author, paper, or implementation. I will add the underlying sources if I recover them. My system is an independent approximation, not a verified reproduction of that summary. I am responsible for reviewing the code, claims, disclosures and submission.
 
 [1] DASE7506 MP2, *Selecting Reliable LLM Reasoning*, supplied course guide and code README, 2026.
 
