@@ -1,0 +1,342 @@
+{
+  "data": "training split only; matched question-level nested 3-fold/2-fold cross-fitting",
+  "method": "peer-inspired group LambdaRank, Nystr\u00f6m pairwise logistic, TF-IDF/SVD interaction pairwise logistic",
+  "normalization": "questions and candidates normalized in memory; vocabulary reserves each distinct numeric unigram in the fitting fold; unseen numeric tokens can be out of vocabulary; embeddings unchanged",
+  "scalar_features": "65 formatting, equation-checking and answer-group attributes; no new question-answer numeric-matching features",
+  "group": "300-tree, 7-leaf LambdaRank; 16-dimensional PCA and out-of-fold pairwise linear, candidate LambdaRank and TF-IDF pairwise scores",
+  "group_mode": "peer-bottom",
+  "kernel": "512 landmarks, RBF gamma 4/1024, feature weight 2, pairwise logistic C=0.1",
+  "text": "question TF-IDF up to 6000, candidate word/bigram TF-IDF up to 20000; SVD 32/64/64; 4096 interactions; pairwise logistic C=0.1",
+  "fusion": "group 25% + kernel 75%, renormalized, then 75% of this + 25% text; baseline hybrids also assessed",
+  "caveat": "not an exact reproduction: peer source, checkpoint and full feature definitions were not supplied; seeds reuse training data",
+  "runs": [
+    {
+      "seed": 6813,
+      "baseline": {
+        "correct": 4345,
+        "n": 4755,
+        "accuracy": 91.37749737118823,
+        "disagreement_correct": 1704,
+        "disagreement_n": 2114,
+        "disagreement_accuracy": 80.60548722800378
+      },
+      "variants": [
+        {
+          "variant": "group",
+          "correct": 4319,
+          "n": 4755,
+          "accuracy": 90.83070452155626,
+          "disagreement_correct": 1678,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 79.3755912961211,
+          "fold_improvements": [
+            -5,
+            -1,
+            -20
+          ],
+          "baseline_only_correct": 163,
+          "variant_only_correct": 137
+        },
+        {
+          "variant": "kernel",
+          "correct": 4341,
+          "n": 4755,
+          "accuracy": 91.29337539432176,
+          "disagreement_correct": 1700,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 80.4162724692526,
+          "fold_improvements": [
+            -2,
+            5,
+            -7
+          ],
+          "baseline_only_correct": 100,
+          "variant_only_correct": 96
+        },
+        {
+          "variant": "text",
+          "correct": 4344,
+          "n": 4755,
+          "accuracy": 91.35646687697161,
+          "disagreement_correct": 1703,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 80.55818353831599,
+          "fold_improvements": [
+            -2,
+            6,
+            -5
+          ],
+          "baseline_only_correct": 98,
+          "variant_only_correct": 97
+        },
+        {
+          "variant": "peer_structure",
+          "correct": 4338,
+          "n": 4755,
+          "accuracy": 91.23028391167193,
+          "disagreement_correct": 1697,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 80.27436140018922,
+          "fold_improvements": [
+            -5,
+            3,
+            -5
+          ],
+          "baseline_only_correct": 108,
+          "variant_only_correct": 101
+        },
+        {
+          "variant": "baseline_75_peer_25",
+          "correct": 4355,
+          "n": 4755,
+          "accuracy": 91.58780231335436,
+          "disagreement_correct": 1714,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.07852412488174,
+          "fold_improvements": [
+            1,
+            6,
+            3
+          ],
+          "baseline_only_correct": 6,
+          "variant_only_correct": 16
+        },
+        {
+          "variant": "baseline_50_peer_50",
+          "correct": 4358,
+          "n": 4755,
+          "accuracy": 91.65089379600421,
+          "disagreement_correct": 1717,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.22043519394512,
+          "fold_improvements": [
+            0,
+            11,
+            2
+          ],
+          "baseline_only_correct": 26,
+          "variant_only_correct": 39
+        }
+      ]
+    },
+    {
+      "seed": 7253,
+      "baseline": {
+        "correct": 4372,
+        "n": 4755,
+        "accuracy": 91.9453207150368,
+        "disagreement_correct": 1731,
+        "disagreement_n": 2114,
+        "disagreement_accuracy": 81.88268684957427
+      },
+      "variants": [
+        {
+          "variant": "group",
+          "correct": 4342,
+          "n": 4755,
+          "accuracy": 91.31440588853839,
+          "disagreement_correct": 1701,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 80.4635761589404,
+          "fold_improvements": [
+            -8,
+            -17,
+            -5
+          ],
+          "baseline_only_correct": 156,
+          "variant_only_correct": 126
+        },
+        {
+          "variant": "kernel",
+          "correct": 4362,
+          "n": 4755,
+          "accuracy": 91.73501577287067,
+          "disagreement_correct": 1721,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.4096499526963,
+          "fold_improvements": [
+            -8,
+            -6,
+            4
+          ],
+          "baseline_only_correct": 91,
+          "variant_only_correct": 81
+        },
+        {
+          "variant": "text",
+          "correct": 4363,
+          "n": 4755,
+          "accuracy": 91.75604626708727,
+          "disagreement_correct": 1722,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.45695364238411,
+          "fold_improvements": [
+            -8,
+            -5,
+            4
+          ],
+          "baseline_only_correct": 90,
+          "variant_only_correct": 81
+        },
+        {
+          "variant": "peer_structure",
+          "correct": 4360,
+          "n": 4755,
+          "accuracy": 91.69295478443743,
+          "disagreement_correct": 1719,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.31504257332071,
+          "fold_improvements": [
+            -7,
+            -8,
+            3
+          ],
+          "baseline_only_correct": 97,
+          "variant_only_correct": 85
+        },
+        {
+          "variant": "baseline_75_peer_25",
+          "correct": 4375,
+          "n": 4755,
+          "accuracy": 92.00841219768665,
+          "disagreement_correct": 1734,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 82.02459791863765,
+          "fold_improvements": [
+            1,
+            0,
+            2
+          ],
+          "baseline_only_correct": 6,
+          "variant_only_correct": 9
+        },
+        {
+          "variant": "baseline_50_peer_50",
+          "correct": 4368,
+          "n": 4755,
+          "accuracy": 91.86119873817034,
+          "disagreement_correct": 1727,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.69347209082308,
+          "fold_improvements": [
+            -6,
+            -1,
+            3
+          ],
+          "baseline_only_correct": 33,
+          "variant_only_correct": 29
+        }
+      ]
+    },
+    {
+      "seed": 7507,
+      "baseline": {
+        "correct": 4362,
+        "n": 4755,
+        "accuracy": 91.73501577287067,
+        "disagreement_correct": 1721,
+        "disagreement_n": 2114,
+        "disagreement_accuracy": 81.4096499526963
+      },
+      "variants": [
+        {
+          "variant": "group",
+          "correct": 4329,
+          "n": 4755,
+          "accuracy": 91.0410094637224,
+          "disagreement_correct": 1688,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 79.84862819299904,
+          "fold_improvements": [
+            -22,
+            -4,
+            -7
+          ],
+          "baseline_only_correct": 162,
+          "variant_only_correct": 129
+        },
+        {
+          "variant": "kernel",
+          "correct": 4358,
+          "n": 4755,
+          "accuracy": 91.65089379600421,
+          "disagreement_correct": 1717,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.22043519394512,
+          "fold_improvements": [
+            -1,
+            4,
+            -7
+          ],
+          "baseline_only_correct": 94,
+          "variant_only_correct": 90
+        },
+        {
+          "variant": "text",
+          "correct": 4359,
+          "n": 4755,
+          "accuracy": 91.67192429022082,
+          "disagreement_correct": 1718,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.26773888363292,
+          "fold_improvements": [
+            0,
+            5,
+            -8
+          ],
+          "baseline_only_correct": 92,
+          "variant_only_correct": 89
+        },
+        {
+          "variant": "peer_structure",
+          "correct": 4351,
+          "n": 4755,
+          "accuracy": 91.5036803364879,
+          "disagreement_correct": 1710,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 80.88930936613056,
+          "fold_improvements": [
+            -4,
+            1,
+            -8
+          ],
+          "baseline_only_correct": 98,
+          "variant_only_correct": 87
+        },
+        {
+          "variant": "baseline_75_peer_25",
+          "correct": 4370,
+          "n": 4755,
+          "accuracy": 91.90325972660357,
+          "disagreement_correct": 1729,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.78807947019867,
+          "fold_improvements": [
+            1,
+            6,
+            1
+          ],
+          "baseline_only_correct": 8,
+          "variant_only_correct": 16
+        },
+        {
+          "variant": "baseline_50_peer_50",
+          "correct": 4367,
+          "n": 4755,
+          "accuracy": 91.84016824395374,
+          "disagreement_correct": 1726,
+          "disagreement_n": 2114,
+          "disagreement_accuracy": 81.64616840113528,
+          "fold_improvements": [
+            4,
+            -1,
+            2
+          ],
+          "baseline_only_correct": 31,
+          "variant_only_correct": 36
+        }
+      ]
+    }
+  ],
+  "elapsed_seconds": 1045.287078958936
+}

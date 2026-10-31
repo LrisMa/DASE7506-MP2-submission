@@ -1,0 +1,23 @@
+{
+  "split": "validation inputs only; no validation references or test data read",
+  "n": 798,
+  "expected": "0.25 standardized baseline + 0.75 standardized two-stage peer ensemble",
+  "checks": [
+    {
+      "model": "validated",
+      "max_direct_formula_difference": 8.881784197001252e-16,
+      "candidate_index_differences": 0,
+      "final_number_differences": 0,
+      "synthetic_permutation_max_difference": 1.1679716527268624e-08
+    },
+    {
+      "model": "peer-bottom",
+      "max_direct_formula_difference": 8.881784197001252e-16,
+      "candidate_index_differences": 0,
+      "final_number_differences": 0,
+      "synthetic_permutation_max_difference": 1.1679716638290927e-08
+    }
+  ],
+  "tests": "47 unit and regression tests passed",
+  "permutation_tolerance": 1e-06
+}

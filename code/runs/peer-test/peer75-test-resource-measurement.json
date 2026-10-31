@@ -1,0 +1,34 @@
+{
+  "hardware": "Apple M1",
+  "threads": 4,
+  "method": "submission_peer_75.py",
+  "freeze_sha256": "1fc0b5a9aff277255e9eb5f979466bcb978c46d36c26e388dd3e346b4c978d06",
+  "freeze_verified_after_both_tests": true,
+  "models": {
+    "validated": {
+      "prediction_wall_seconds": 9.427959667053074,
+      "prediction_seconds": 9.125292957993224,
+      "score_wall_seconds": 0.1763758328743279,
+      "scoring_seconds": 0.02746829204261303,
+      "correct": 389,
+      "n": 467,
+      "accuracy": 83.29764453961457,
+      "uncompressed_asset_bytes": 10406770,
+      "score_sha256": "d591d59c3b37ba8d6f8886eef5a9c76b1ed9edf76783b0210444e7da3c0e6b81",
+      "prediction_plus_scoring_wall_seconds": 9.604335499927402
+    },
+    "peer-bottom": {
+      "prediction_wall_seconds": 8.799844249850139,
+      "prediction_seconds": 8.546066707931459,
+      "score_wall_seconds": 0.15988904214464128,
+      "scoring_seconds": 0.029911499936133623,
+      "correct": 391,
+      "n": 467,
+      "accuracy": 83.72591006423983,
+      "uncompressed_asset_bytes": 10235918,
+      "score_sha256": "126b24fd980f414ea37b706431d765af0cea1416cfbd1feb52972525327226a5",
+      "prediction_plus_scoring_wall_seconds": 8.95973329199478
+    }
+  },
+  "note": "Both variants were frozen before either official test. Previous aggregate test scores and peer results were known. These results are for final scoring only and must not be used for training, tuning or model selection. Local timing does not establish reference Xeon compliance."
+}

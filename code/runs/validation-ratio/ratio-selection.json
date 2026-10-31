@@ -1,0 +1,78 @@
+{
+  "rule": "max validation accuracy, ties to smaller old_weight",
+  "selected_old_weight": 1.0,
+  "results": {
+    "0.0": {
+      "old_weight": 0.0,
+      "correct": 735,
+      "n": 798,
+      "accuracy": 92.11
+    },
+    "0.1": {
+      "old_weight": 0.1,
+      "correct": 737,
+      "n": 798,
+      "accuracy": 92.36
+    },
+    "0.15": {
+      "old_weight": 0.15,
+      "correct": 738,
+      "n": 798,
+      "accuracy": 92.48
+    },
+    "0.2": {
+      "old_weight": 0.2,
+      "correct": 739,
+      "n": 798,
+      "accuracy": 92.61
+    },
+    "0.25": {
+      "old_weight": 0.25,
+      "correct": 739,
+      "n": 798,
+      "accuracy": 92.61
+    },
+    "0.3": {
+      "old_weight": 0.3,
+      "correct": 738,
+      "n": 798,
+      "accuracy": 92.48
+    },
+    "0.4": {
+      "old_weight": 0.4,
+      "correct": 742,
+      "n": 798,
+      "accuracy": 92.98
+    },
+    "0.5": {
+      "old_weight": 0.5,
+      "correct": 744,
+      "n": 798,
+      "accuracy": 93.23
+    },
+    "0.6": {
+      "old_weight": 0.6,
+      "correct": 748,
+      "n": 798,
+      "accuracy": 93.73
+    },
+    "0.75": {
+      "old_weight": 0.75,
+      "correct": 750,
+      "n": 798,
+      "accuracy": 93.98
+    },
+    "0.9": {
+      "old_weight": 0.9,
+      "correct": 751,
+      "n": 798,
+      "accuracy": 94.11
+    },
+    "1.0": {
+      "old_weight": 1.0,
+      "correct": 752,
+      "n": 798,
+      "accuracy": 94.24
+    }
+  }
+}

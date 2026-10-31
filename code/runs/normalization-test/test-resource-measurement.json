@@ -1,0 +1,16 @@
+{
+  "split": "test",
+  "hardware": "Apple M1",
+  "prediction_plus_scoring_seconds": 5.572072333889082,
+  "uncompressed_asset_bytes": 607272,
+  "threads": 4,
+  "method": "submission_normalized.py",
+  "checkpoint": "runs/numeric/selected.npz",
+  "correct": 383,
+  "n": 467,
+  "accuracy": 82.01284796573876,
+  "freeze_verified_after_test": true,
+  "freeze_sha256": "070928425fcc495e3317e79731af7b40ca5c5ebb97308b2ddd20387d8960d248",
+  "score_sha256": "97b4f8c344a23fde9cccb806de533c04035e602f980a5bb1a37b77c923a07307",
+  "note": "One user-authorized official test evaluation; earlier aggregate test scores were known. Per-question predictions and test data must not be used in later training or model selection. Apple M1 timing does not establish Xeon reference-CPU compliance."
+}

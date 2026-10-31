@@ -1,0 +1,47 @@
+{
+  "data": "validation inputs and references; choices computed before references were loaded",
+  "caveat": "Validation was previously reused for development and is not independent. A flagged equation is not proof that its final answer is wrong. No model is modified or trained by this audit.",
+  "results": {
+    "baseline": {
+      "correct": 752,
+      "n": 798,
+      "accuracy": 94.23558897243107,
+      "disagreement_correct": 309,
+      "disagreement_n": 355,
+      "disagreement_accuracy": 87.04225352112675,
+      "disagreement_correct_selected_flagged": 1,
+      "disagreement_wrong_selected_flagged": 1
+    },
+    "peer75": {
+      "correct": 739,
+      "n": 798,
+      "accuracy": 92.60651629072682,
+      "disagreement_correct": 296,
+      "disagreement_n": 355,
+      "disagreement_accuracy": 83.38028169014085,
+      "disagreement_correct_selected_flagged": 1,
+      "disagreement_wrong_selected_flagged": 1
+    }
+  },
+  "paired_disagreement": {
+    "disagreement_questions": 355,
+    "different_final_answers": 20,
+    "baseline_only_correct": 16,
+    "peer75_only_correct": 3,
+    "both_wrong": 43
+  },
+  "numeric_vocabulary_coverage": {
+    "validation_questions": 798,
+    "questions_with_numeric_tokens": 798,
+    "questions_with_unseen_numeric_tokens": 51,
+    "question_numeric_tokens": 3048,
+    "question_unseen_numeric_tokens": 66,
+    "candidates": 3192,
+    "candidates_with_numeric_tokens": 3192,
+    "candidates_with_unseen_numeric_tokens": 304,
+    "candidate_numeric_tokens": 58862,
+    "candidate_unseen_numeric_tokens": 832
+  },
+  "status": "complete",
+  "elapsed_seconds": 26.971982582937926
+}

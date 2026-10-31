@@ -1,0 +1,8 @@
+{
+  "protocol": "dase7506-mp2-open-hard-verifier-v5",
+  "split": "validation",
+  "correct": 744,
+  "n": 798,
+  "accuracy": 93.23308270676692,
+  "scoring_seconds": 0.04584166710264981
+}

@@ -1,0 +1,21 @@
+{
+  "status": "complete",
+  "data": "training split only; normalized question and candidate texts",
+  "caveat": "Conservative syntactic checks can miss equations and still misinterpret context. Candidate counts are correlated; unequal arithmetic does not imply a wrong final answer. No model is modified or trained by this audit.",
+  "counts": {
+    "train_questions": 4755,
+    "disagreement_questions": 2114,
+    "questions_with_checked_equations": 2246,
+    "disagreement_questions_with_checked_equations": 1065,
+    "candidates_with_checked_equations": 5960,
+    "checked_equations": 7677,
+    "unequal_equations": 52,
+    "correct_candidates_checked": 4642,
+    "incorrect_candidates_checked": 1318,
+    "correct_candidates_with_unequal_equation": 7,
+    "incorrect_candidates_with_unequal_equation": 44,
+    "correct_candidates_new_unequal": 6,
+    "incorrect_candidates_new_unequal": 40
+  },
+  "elapsed_seconds": 9.977148791076615
+}
